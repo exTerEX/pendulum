@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy
+import scipy.integrate
 
 
 class Pendulum:
@@ -34,7 +35,14 @@ class Pendulum:
         return (omega, -(constant / length) * numpy.sin(theta))
 
     def solve(self, u0: float, T: float, dt: float, angular_unit: str = "rad"):
-        pass
+        if angular_unit == "deg":
+            u0 *= numpy.pi / 180
+
+        t = numpy.linspace(0, T, int(numpy.ceil(T / dt)) + 1, dtype=float)
+
+        solution = scipy.integrate.solve_ivp(self, [0, T], u0, method="Radau", t_eval=t)
+
+        self._t, self._u = solution.t, solution.y
 
     @property
     def t(self):
