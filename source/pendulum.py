@@ -83,7 +83,7 @@ class Pendulum:
 
     @property
     def potential(self):
-        return self._mass * self._gravity_constant * (self.u + self._l)
+        return self._mass * self._gravity_constant * (self.u + self._length)
 
     @property
     def kinetic(self):
