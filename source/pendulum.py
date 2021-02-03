@@ -3,19 +3,25 @@
 import numpy
 import scipy.integrate
 
+default_kwargs = {
+    "gravity_constant": 9.81
+}
+
 
 class Pendulum:
-    def __init__(self, length: float = 1.0, mass: float = 1.0, g: float = 9.81) -> None:
+    def __init__(self, length: float = 1.0, mass: float = 1.0, **kwargs) -> None:
         """Base pendulum object for simulating Pendulum movement.
 
         Args:
             length (float, optional): Length of the rod. Defaults to 1.0.
             mass (float, optional): Mass of bob. Defaults to 1.0.
-            g (float, optional): Gravity constant. Defaults to 9.81.
+            gravity_constant (float, optional): Gravity constant. Defaults to 9.81.
         """
+        kwargs = {**default_kwargs, **kwargs}
+
         self._length = float(length)
         self._mass = float(mass)
-        self._gravity_constant = float(g)
+        self._gravity_constant = float(kwargs["gravity_constant"])
         self._t, self._u = None, None
 
     def __call__(self, t: float, u: tuple) -> tuple:
