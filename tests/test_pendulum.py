@@ -52,7 +52,7 @@ def test_pendulum_radius():
     u = (theta, omega)
     t = 1
 
-    pendulum = Pendulum(l, 1.0, 9.81)
+    pendulum = Pendulum(l)
     pendulum(t, u)
     pendulum.solve([numpy.pi / 4.0, 0.5 * numpy.pi], 10, 0.01)
 
