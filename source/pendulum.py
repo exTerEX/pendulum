@@ -2,6 +2,8 @@
 
 import numpy
 import scipy.integrate
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 default_kwargs = {
     "gravity_constant": 9.81
@@ -48,6 +50,7 @@ class Pendulum:
 
         solution = scipy.integrate.solve_ivp(self, [0, T], u0, method="Radau", t_eval=t)
 
+        self._dt = dt
         self._t, self._u = solution.t, solution.y
 
     @property
@@ -94,3 +97,32 @@ class Pendulum:
     @property
     def kinetic(self):
         return 0.5 * self._mass * (self.vx**2 + self.vu**2)
+
+    def animate(self):
+        fig = plt.figure(figsize=(2, 2), dpi=200)
+        plt.axis("equal")
+        length = round(max(self.x) * 1.15, 2)
+        plt.ylim(-length, length)
+        plt.xlim(-length, length)
+        plt.grid(False)
+        plt.tick_params(labelsize=8)
+
+        self._pendulums, = plt.plot([], [], "o-", lw=2)
+
+        self._Animation = animation.FuncAnimation(
+            fig, self._next_frame, frames=range(len(self.x)),
+            repeat=None, interval=100 * self._dt, blit=True)
+
+        plt.close(fig)
+
+    def _next_frame(self, index):
+        self._pendulums.set_data(
+            (0, self.x[index]),
+            (0, self.u[index])
+        )
+
+        return self._pendulums,
+
+    @property
+    def get_animation(self):
+        return self._Animation
