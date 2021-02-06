@@ -17,7 +17,7 @@ if __name__ == "__main__":
         ],
         zip_safe=False,
         extras_require={
-            "test": ["pytest==6.2.2"]
+            "test": ["pytest"]
         },
         packages=["source"]
     )
