@@ -2,6 +2,7 @@
 
 from source.pendulum import Pendulum
 
+# pyright: reportMissingImports=false
 import numpy
 import pytest
 

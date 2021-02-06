@@ -2,6 +2,7 @@
 
 from source.double_pendulum import DoublePendulum
 
+# pyright: reportMissingImports=false
 import numpy
 import pytest
 
