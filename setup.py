@@ -2,7 +2,7 @@
 """
 Distutils setup file, used to install or test 'pendulum'
 """
-from setuptools import setup
+from setuptools import setup  # pyright: reportMissingImports=false
 
 if __name__ == "__main__":
     setup(
