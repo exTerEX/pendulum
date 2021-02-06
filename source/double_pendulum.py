@@ -79,7 +79,7 @@ class DoublePendulum:
         return self._theta2
 
     @property
-    def theta2(self):
+    def omega2(self):
         return self._omega2
 
     @property
@@ -127,3 +127,35 @@ class DoublePendulum:
         k2 = 0.5 * self._mass2 * (self.vx2**2 + self.vu2**2)
 
         return k1 + k2
+
+    def animate(self):
+        fig = plt.figure(figsize=(2, 2), dpi=200)
+
+        plt.axis("equal")
+        length = round((self._length1 + self._length2) * 1.15, 2)
+
+        plt.ylim(-length, length)
+        plt.xlim(-length, length)
+
+        plt.grid(False)
+        plt.tick_params(labelsize=8)
+
+        self._pendulums, = plt.plot([], [], "o-", lw=2)
+
+        self._Animation = animation.FuncAnimation(
+            fig, self._next_frame, frames=range(len(self.x1)),
+            repeat=None, interval=100 * self._dt, blit=True)
+
+        plt.close(fig)
+
+    def _next_frame(self, index):
+        self._pendulums.set_data(
+            (0, self.x1[index], self.x2[index]),
+            (0, self.u1[index], self.u2[index])
+        )
+
+        return self._pendulums,
+
+    @property
+    def get_animation(self):
+        return self._Animation
