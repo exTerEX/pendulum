@@ -100,10 +100,14 @@ class Pendulum:
 
     def animate(self):
         fig = plt.figure(figsize=(2, 2), dpi=200)
+
         plt.axis("equal")
-        length = round(max(self.x) * 1.15, 2)
+
+        length = round(self._length * 1.15, 2)
+
         plt.ylim(-length, length)
         plt.xlim(-length, length)
+
         plt.grid(False)
         plt.tick_params(labelsize=8)
 
