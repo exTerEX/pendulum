@@ -2,6 +2,7 @@
 
 from source.pendulum import Pendulum
 
+# pyright: reportMissingImports=false, reportMissingModuleSource=false
 import numpy
 import scipy.integrate
 import matplotlib.pyplot as plt
