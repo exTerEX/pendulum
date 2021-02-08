@@ -8,37 +8,32 @@ import pytest
 
 
 def test_double_pendulum():
-    length1, length2 = 2, 1
-    mass1, mass2 = 1, 4
+    length1, length2 = 2.0, 1.0
+    mass1, mass2 = 1.0, 4.0
 
     omega1, omega2 = 0.1, 0.5
-    theta1, theta2 = numpy.pi / 4, numpy.pi / 2
+    theta1, theta2 = numpy.pi / 4.0, numpy.pi / 2.0
 
-    u = (theta1, omega1, theta2, omega2)
-    t = 1
+    t, u = 1.0, (theta1, omega1, theta2, omega2)
 
-    exp_derivative = DoublePendulum(mass1, length1, mass2, length2)
+    expected = (0.1, -1.031602, 0.5, -8.531904)
+    actual = DoublePendulum(mass1, length1, mass2, length2)(t, u)
 
-    expected = exp_derivative(t, u)
-    actual = (0.1, -1.03160179038, 0.5, -8.53190355937)
-
-    for exp, act in zip(expected, actual):
-        assert(act == pytest.approx(exp))
+    assert(expected == pytest.approx(actual))
 
 
 def test_double_pendulum_at_rest():
-    length1, length2 = 2, 1
-    mass1, mass2 = 1, 4
+    length1, length2 = 2.0, 1.0
+    mass1, mass2 = 1.0, 4.0
 
     omega1 = omega2 = theta1 = theta2 = 0
 
-    u = (theta1, omega1, theta2, omega2)
-    t = 1
+    t, u = 1.0, (theta1, omega1, theta2, omega2)
 
-    expected = DoublePendulum(mass1, length1, mass2, length2)
-    actual = (0, 0, 0, 0)
+    expected = (0.0, 0.0, 0.0, 0.0)
+    actual = DoublePendulum(mass1, length1, mass2, length2)(t, u)
 
-    assert(actual == pytest.approx(expected(t, u)))
+    assert(expected == pytest.approx(actual))
 
 
 def test_potential_energy():
@@ -54,10 +49,10 @@ def test_potential_energy():
     doublePendulum = DoublePendulum(mass1, length1, mass2, length2)
     doublePendulum.solve(u, t, 1 / 60)
 
-    expected = doublePendulum.potential[0]
-    actual = 32.488512
+    expected = 32.488512
+    actual = doublePendulum.potential[0]
 
-    assert(actual == pytest.approx(expected))
+    assert(expected == pytest.approx(actual))
 
 
 def test_kinetic_energy():
@@ -73,30 +68,26 @@ def test_kinetic_energy():
     doublePendulum = DoublePendulum(mass1, length1, mass2, length2)
     doublePendulum.solve(u, t, 1 / 60)
 
-    expected = doublePendulum.kinetic[0]
-    actual = 15.707572
+    expected = 15.707572
+    actual = doublePendulum.kinetic[0]
 
-    assert(actual == pytest.approx(expected))
+    assert(expected == pytest.approx(actual))
 
 
 def test_total_energy():
-    l1 = 3
-    m1 = 1.2
-    l2 = 0.5
-    m2 = 2
+    length1, length2 = 3, 0.5
+    mass1, mass2 = 1.2, 2
 
-    omega1 = 1.0
-    theta1 = numpy.pi / 4.0
-    omega2 = numpy.pi / 5.0
-    theta2 = numpy.pi / 3.0
+    omega1, omega2 = 1.0, 0.2 * numpy.pi
+    theta1, theta2 = numpy.pi / 4.0, numpy.pi / 3.0
 
     u = (theta1, omega1, theta2, omega2)
     t = 10
 
-    doublePendulum = DoublePendulum(m1, l1, m2, l2)
+    doublePendulum = DoublePendulum(mass1, length1, mass2, length2)
     doublePendulum.solve(u, t, 1 / 60)
 
-    expected = doublePendulum.potential[0] + doublePendulum.kinetic[0]
-    actual = 48.196083
+    expected = 48.196083
+    actual = doublePendulum.potential[0] + doublePendulum.kinetic[0]
 
-    assert(actual == pytest.approx(expected))
+    assert(expected == pytest.approx(actual))
