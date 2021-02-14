@@ -44,6 +44,14 @@ class Pendulum:
         return (omega, -(constant / length) * numpy.sin(theta))
 
     def solve(self, u0: float, T: float, dt: float, angular_unit: str = "rad"):
+        """Solver to find time-series of initial value.
+
+        Args:
+            u0 (float): Initial angle
+            T (float): Length of simulation
+            dt (float): Time density
+            angular_unit (str, optional): angular unit. "deg" or "rad". Defaults to "rad".
+        """
         if angular_unit == "deg":
             u0 *= numpy.pi / 180
 

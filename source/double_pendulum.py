@@ -16,6 +16,15 @@ default_kwargs = {
 class DoublePendulum:
     def __init__(self, mass1: float = 1.0, length1: float = 1.0,
                  mass2: float = 1.0, length2: float = 1.0, **kwargs):
+        """Base pendulum object for simulating Double Pendulum movement.
+
+        Args:
+            length1 (float, optional): Length of the rod. Defaults to 1.0.
+            mass1 (float, optional): Mass of bob. Defaults to 1.0.
+            length2 (float, optional): Length of the rod. Defaults to 1.0.
+            mass2 (float, optional): Mass of bob. Defaults to 1.0.
+            gravity_constant (float, optional): Gravity constant. Defaults to 9.81.
+        """
         kwargs = {**default_kwargs, **kwargs}
 
         self._mass1 = mass1
@@ -26,6 +35,15 @@ class DoublePendulum:
         self._gravity_constant = kwargs["gravity_constant"]
 
     def __call__(self, t: float, u: tuple) -> tuple:
+        """Call function.
+
+        Args:
+            t (float): Time
+            u (tuple): Position as (theta2, omega2, theta2, omega2).
+
+        Returns:
+            tuple: Return the calculated next position.
+        """
         m1, l1, m2, l2 = self._mass1, self._length1, self._mass2, self._length2
         g = self._gravity_constant
 
@@ -54,6 +72,14 @@ class DoublePendulum:
         return (dht1, dho1, dht2, dho2)
 
     def solve(self, u0, T, dt, angular_unit: str = "rad"):
+        """Solver to find time-series of initial value.
+
+        Args:
+            u0 (float): Initial angle
+            T (float): Length of simulation
+            dt (float): Time density
+            angular_unit (str, optional): angular unit. "deg" or "rad". Defaults to "rad".
+        """
         if angular_unit == "deg":
             u0 *= numpy.pi / 180
 
